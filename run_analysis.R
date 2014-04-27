@@ -1,4 +1,16 @@
 PATH <- dirname(sys.frame(1)$ofile)
+setwd(PATH)
+if (file.exists("UCI HAR Dataset")){
+    setwd(file.path(PATH, "UCI HAR Dataset"))
+} else {
+    setInternet2(use=NA)
+    setInternet2(use=FALSE)
+    setInternet2(use=NA)
+    options(timeout = 700)
+    download.file(url="http://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip","dataset.zip")
+    unzip("dataset.zip") 
+    options(timeout = 60)
+}
 setwd(file.path(PATH, "UCI HAR Dataset"))
 ## Read data from files
 test_features   <- read.table("test//X_test.txt")
@@ -46,4 +58,4 @@ tidy_data<-tidy_data[2:dim(tidy_data)[1],]
 names(tidy_data)<-names(dataset)
 rownames(tidy_data) <- NULL
 
-write.table(tidy_data,"tidy_data.txt",sep="\t",row.names=FALSE)
+write.table(tidy_data,"../tidy_data.txt",sep="\t",row.names=FALSE)
